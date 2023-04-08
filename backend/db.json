@@ -1,0 +1,20 @@
+{
+    "division": [{
+        "id": 1,
+        "name": "jsonserver",
+        "createdAt": "typicode",
+        "description": "подразделение по работе с авто",
+        "parent-division": "",
+        "parent-divisionId": null
+    }],
+    "workers": [{
+        "id": 1,
+        "fullName": "Черков",
+        "dateOfBirth": "05.12.2000",
+        "sex": "M",
+        "position": "Директор",
+        "hasDriverLicense": "есть",
+        "division": "jsonserver",
+        "divisionId": 1
+    }]
+}
