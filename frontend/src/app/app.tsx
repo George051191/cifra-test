@@ -2,6 +2,10 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import DivisionItem from '../components/divisionItem';
 import WorkerItem from '../components/workerItem';
+import Modal from '../components/modal';
+import DivisionSettings from '../components/divisionSettings';
+import CreateDivision from '../components/createDivision';
+import WorkerSettings from '../components/workerSettings';
 
 const MainSection = styled.table`
 border-collapse: collapse;
@@ -19,10 +23,13 @@ border: 1px solid #E2E3E5;
 
 const App: FC = () => (
   <MainSection>
-    <WorkerItem isHeader/>
+    <Modal onClose={() => { console.log(123) }}>
+      <WorkerSettings />
+    </Modal>
+   {/*  <WorkerItem isHeader/>
     <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' />
     <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' />
-    <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' />
+    <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' /> */}
     {/*  <DivisionItem arrowIconClick={() => console.log(577)}
       description='fhhf sudjudh dhudush dunsndjnjdsnjdnjsdn ndsjnjndjnjsndjnd'
       createdAt='05/11/91'

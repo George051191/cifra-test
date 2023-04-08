@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ReactComponent as UpArrow } from '../vendor/images/upArrow.svg';
 import { ReactComponent as DownArrow } from '../vendor/images/downArrow.svg';
 import { ReactComponent as SettingsIcon } from '../vendor/images/settings.svg';
-
+import { ReactComponent as CrossPic } from '../vendor/images/cross-icon.svg';
 
 export const UpArrowIcon = styled(UpArrow)`
     width: 20px;
@@ -34,3 +34,8 @@ export const BasicSettingsIcon = styled(SettingsIcon)`
     right:-24px ;
     cursor: pointer;
 `
+export const CrossIcon = styled(CrossPic)`
+  width: 24px;
+  height: 24px;
+  display: block;
+`;

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type TDivisionItemType = {
   itemName: string;
   onClick: () => void;
@@ -17,4 +19,19 @@ export type TWorkerItemType = {
   isHeader: boolean;
 }
 
-//ФИО, Дата рождения, Пол, Должность, Наличие водительских прав.
+export type TModalProps = {
+  onClose: () => void;
+  children: ReactNode;
+}
+
+export type TDvisionSettings = {
+  name: string;
+  description: string;
+  createdAt: string;
+  onBlur?: () => void;
+  createDivision?: () => void;
+  changeDivision?: () => void;
+  deleteDivision?: () => void;
+}
+
+/// все поля дивизии, onBlur, createDivision, changeDivision
