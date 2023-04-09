@@ -1,20 +1,93 @@
 {
-    "division": [{
-        "id": 1,
-        "name": "jsonserver",
-        "createdAt": "typicode",
-        "description": "подразделение по работе с авто",
-        "parent-division": "",
-        "parent-divisionId": null
-    }],
+    "divisions": [{
+            "id": 1,
+            "name": "электрики",
+            "createdAt": "05.08.1968",
+            "description": "подразделение по работе с электричеством",
+            "parentDivision": 0
+        },
+        {
+            "id": 2,
+            "name": "сантехники",
+            "createdAt": "05.08.1968",
+            "description": "подразделение по работе с водой",
+            "parentDivision": 0
+        },
+        {
+            "id": 3,
+            "name": "слесари",
+            "createdAt": "05.08.1968",
+            "description": "подразделение по работе с инструментом",
+            "parentDivision": 0
+        },
+        {
+            "id": 4,
+            "name": "слесари",
+            "createdAt": "05.08.1968",
+            "description": "подразделение по работе с инструментом",
+            "parentDivision": 1
+        },
+        {
+            "id": 5,
+            "name": "слесари",
+            "createdAt": "05.08.1968",
+            "description": "подразделение по работе с инструментом",
+            "parentDivision": 1
+        }
+
+
+    ],
     "workers": [{
-        "id": 1,
-        "fullName": "Черков",
-        "dateOfBirth": "05.12.2000",
-        "sex": "M",
-        "position": "Директор",
-        "hasDriverLicense": "есть",
-        "division": "jsonserver",
-        "divisionId": 1
-    }]
+            "id": 1,
+            "fullName": "Иванов Иван Иванович",
+            "dateOfBirth": "05.12.2000",
+            "gender": "male",
+            "position": "Директор",
+            "hasDriverLicense": true,
+            "division": 1
+        },
+        {
+            "id": 2,
+            "fullName": "Иванов Иван Иванович",
+            "dateOfBirth": "05.12.2000",
+            "gender": "male",
+            "position": "Директор",
+            "hasDriverLicense": true,
+            "division": 2
+        }, {
+            "id": 3,
+            "fullName": "Иванов Иван Иванович",
+            "dateOfBirth": "05.12.2000",
+            "gender": "male",
+            "position": "Директор",
+            "hasDriverLicense": false,
+            "division": 2
+        },
+        {
+            "id": 4,
+            "fullName": "Иванов Иван Иванович",
+            "dateOfBirth": "05.12.2000",
+            "gender": "male",
+            "position": "Директор",
+            "hasDriverLicense": false,
+            "division": 3
+        },
+        {
+            "id": 5,
+            "fullName": "Иванов Иван Иванович",
+            "dateOfBirth": "05.12.2000",
+            "gender": "male",
+            "position": "Директор",
+            "hasDriverLicense": true,
+            "division": 1
+        }
+
+
+
+
+
+
+
+    ]
+
 }

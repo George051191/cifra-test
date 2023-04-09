@@ -9,6 +9,7 @@ const BasicDivisionItem = styled.li`
     border: 1px solid rgb(226, 227, 229);
     border-radius: 6px;
     cursor: pointer;
+    background-color:  #FFFFFF;
     position: relative;
     list-style: none;
     text-align: center;
@@ -22,7 +23,7 @@ const DescriptionModal = styled.div`
   width: 200px;
   border: 1px solid #E2E3E5;
   border-radius: 6px;
-  background-color:  '#FFFFFF';
+  background-color:  #FFFFFF;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -41,7 +42,7 @@ const DescriptionModalItem = styled.p`
 `;
 
 const DivisionItem: FC<TDivisionItemType> = ({
-  itemName, arrowIconClick, createdAt, description, onClick, hasParent,
+  itemName, arrowIconClick, createdAt, description, onClick, openSettingsMenu,
 }) => {
   const [isOpen, setOpenstatus] = useState(false);
   const openFullDescription = () => {
@@ -56,7 +57,7 @@ const DivisionItem: FC<TDivisionItemType> = ({
       onMouseOver={openFullDescription}
       onClick={onClick}>
       {itemName}
-      {hasParent && <DownArrowIcon onClick={arrowIconClick} />}
+      <DownArrowIcon onClick={arrowIconClick} />
       {isOpen
         && (
         <DescriptionModal>
@@ -70,20 +71,9 @@ const DivisionItem: FC<TDivisionItemType> = ({
           </DescriptionModalItem>
         </DescriptionModal>
         )}
-      <BasicSettingsIcon />
+      <BasicSettingsIcon onClick={openSettingsMenu} />
     </BasicDivisionItem>
   );
 };
 
 export default DivisionItem;
-
-/// Приложение позволяет добавлять/изменять/удалять подразделения и работников. Также позволяет менять структуру подразделений и переносить работника между подразделениями.
-/// Добавление и редактирование должно происходить в отдельном модальном окне или отдельной странице.
-/// клик по дивизиону присылает его работников
-/// кнопка три точки открывает модалку для изменений
-/// в модалке поля описание и название, создать дочернее подразделение отдельный филдсет с полями нового подразделения
-
-/// !!!!!!!!!!!!!!!
-/// клик по самой плашке дивизиона отправляет запрос на работников
-/// клик по стрелке вниз отправляет запрос за дочерними категориями
-/// клик по настройкам вызывает модалку с полями для изменения и создания новой подкатегории 

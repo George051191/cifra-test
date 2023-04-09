@@ -17,6 +17,7 @@ const ModalOverlay = styled.div`
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const CloseButton = styled.button`
@@ -31,13 +32,12 @@ const CloseButton = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 98;
-  background-color: transparent;
+ 
 `;
 
 const ModalDialog = styled.div`
   position: relative;
   width: 400px;
-    //height: 460px;
   z-index: 97;
   display: flex;
   flex-flow: column nowrap;
@@ -46,6 +46,7 @@ const ModalDialog = styled.div`
   padding: 20px 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 0 4px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
+  background-color:  #FFFFFF;
 `;
 
 const Modal : FC<TModalProps> = ({ onClose, children }) => {
