@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { FC, useState } from 'react';
+import React, {
+  ChangeEvent, ChangeEventHandler, FC, useState,
+} from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -43,7 +45,8 @@ const CreateDivision: FC = () => {
     description: '',
   });
 
-  const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
+  const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> =
+    (evt: ChangeEvent<HTMLInputElement>) => {
     setData({
       ...newDivisionData,
       [evt.target.name]: evt.target.value,

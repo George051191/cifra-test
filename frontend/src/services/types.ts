@@ -34,4 +34,8 @@ export type TDvisionSettings = {
   deleteDivision?: () => void;
 }
 
+export type TNotification = {
+  errorMessage: string;
+}
+
 /// все поля дивизии, onBlur, createDivision, changeDivision

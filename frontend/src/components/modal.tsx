@@ -37,13 +37,13 @@ const CloseButton = styled.button`
 const ModalDialog = styled.div`
   position: relative;
   width: 400px;
-    height: 460px;
+    //height: 460px;
   z-index: 97;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  padding: 0 30px;
+  padding: 20px 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 0 4px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
 `;

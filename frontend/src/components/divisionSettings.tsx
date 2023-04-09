@@ -48,6 +48,12 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
+const LicenseTitle = styled.p`
+    margin: 0;
+    padding: 0;
+`;
+
+
 const DivisionSettings: FC<TDvisionSettings> = ({
   name, description, createdAt,
 }) => {
@@ -56,9 +62,18 @@ const DivisionSettings: FC<TDvisionSettings> = ({
     description,
   });
 
+  const [driverLicense, setDriverLicenseStatus] = useState<boolean>();
+
   const [newDivisionData, setData] = useState({
     name: '',
     description: '',
+  });
+
+  const [changeDataFormWorker, setNewDataForWorker] = useState({
+    name: '',
+    birthDate: '',
+    gender: '',
+    position: '',
   });
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +97,28 @@ const DivisionSettings: FC<TDvisionSettings> = ({
         if (evt.target.value === '') {
           evt.target.value = description;
         }
+        break;
+      }
+    }
+  };
+
+  const onChangeWorkersInput: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
+    evt.stopPropagation();
+    setNewDataForWorker({
+      ...changeDataFormWorker,
+      [evt.target.name]: evt.target.value,
+    });
+  }
+
+  const setDriverLicense:ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
+    evt.stopPropagation();
+    switch (evt.target.value) {
+      case 'Да': {
+        setDriverLicenseStatus(true);
+        break;
+      }
+      case 'Нет': {
+        setDriverLicenseStatus(false);
         break;
       }
     }
@@ -118,6 +155,22 @@ const DivisionSettings: FC<TDvisionSettings> = ({
         </FieldSet>
         <Button type='submit'>Отправить изменения</Button>
         <Button onClick={deleteDivision} type='button'>Удалить подразделение</Button>
+      </Form>
+      <Form>
+        <Legend>Добавить сотрудника</Legend>
+        <Label htmlFor='name'>ФИО</Label>
+        <Input name='name' id='name' value={changeDataForm.name} onChange={onChange} />
+        <Label htmlFor='birthDate'>Дата рождения</Label>
+        <Input name='birthDate' id='birthDate' value={changeDataFormWorker.birthDate} onChange={onChange} />
+        <Label htmlFor='gender'>Пол</Label>
+        <Input name='gender' id='gender' value={changeDataFormWorker.gender} onChange={onChange} />
+        <Label htmlFor='position'>Должность</Label>
+        <Input name='position' id='position' value={changeDataFormWorker.position} onChange={onChange} />
+        <LicenseTitle>Наличие водительских прав</LicenseTitle>
+        <Label htmlFor='licenseTrue'>Да</Label>
+        <Input type='radio' name='license' id='licenseTrue' value='Да' onChange={setDriverLicense} />
+        <Label htmlFor='licenseFalse'>Нет</Label>
+        <Input type='radio' name='license' id='licenseFalse' value='Нет' onChange={setDriverLicense} />
       </Form>
       <Form onSubmit={createDivision}>
         <Legend>Создать дочернее подразделение</Legend>
