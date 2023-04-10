@@ -54,7 +54,7 @@ const Modal : FC<TModalProps> = ({ onClose, children }) => {
   useEffect(() => {
     const handleEscClose = (evt: KeyboardEvent): void => {
       evt.stopPropagation();
-      if (evt.key && evt.key === 'Escape') {
+      if (evt.key === 'Escape') {
         onClose();
       }
     };
@@ -67,7 +67,7 @@ const Modal : FC<TModalProps> = ({ onClose, children }) => {
 
   return ReactDOM.createPortal(
     (
-      <ModalOverlay onClick={onCloseClick}>
+      <ModalOverlay>
         <ModalDialog>
           <CloseButton onClick={onCloseClick}><CrossIcon /></CloseButton>
           {children}

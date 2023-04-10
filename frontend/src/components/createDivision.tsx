@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, {
-  ChangeEvent, ChangeEventHandler, FC, useState,
+  ChangeEvent, ChangeEventHandler, FC, FormEvent, useState,
 } from 'react';
 import styled from 'styled-components';
+import createDivisionThunk from '../thunks/create-division-thunk';
+import { useDispatch } from '../services/hooks';
 
 const Form = styled.form`
     display: flex;
@@ -40,25 +42,27 @@ const Button = styled.button`
 `;
 
 const CreateDivision: FC = () => {
+  const dispatch = useDispatch();
   const [newDivisionData, setData] = useState({
     name: '',
     description: '',
   });
 
   const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> =
-    (evt: ChangeEvent<HTMLInputElement>) => {
+  (evt: ChangeEvent<HTMLInputElement>) => {
     setData({
       ...newDivisionData,
       [evt.target.name]: evt.target.value,
     });
   };
 
-  const createDivision = () => {
-    /// создание дивизтт без указания дочерних
+  const createDivision = (evt:FormEvent<HTMLFormElement>) => {
+    evt.preventDefault()
+   dispatch(createDivisionThunk(newDivisionData))
   };
   return (
-    <Form onSubmit={createDivision}>
-      <Legend>Создать дочернее подразделение</Legend>
+    <Form onSubmit={(evt) => createDivision(evt)}>
+      <Legend>Создать подразделение</Legend>
       <Label htmlFor='name'>Наименование</Label>
       <Input name='name' id='name' value={newDivisionData.name} onChange={setDataForNewDivision} />
       <Label htmlFor='description'> Описание</Label>

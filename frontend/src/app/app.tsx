@@ -12,6 +12,7 @@ import Notification from '../components/notification';
 import getAllDivisionsThunk from '../thunks/get-divisions-thunk';
 import getWorkersThunk from '../thunks/get-workers-thunk';
 import { useDispatch, useSelector } from '../services/hooks';
+import getPreviousDivisionsThunk from '../thunks/get-previous-divisions-thunk';
 
 const MainSection = styled.section`
   display: flex;
@@ -21,11 +22,25 @@ const MainSection = styled.section`
   background-color:  #b8b0b0;
   height: 100vh;
 `;
+const Button = styled.button`
+    width: 130px;
+    height: 50px;
+    border-radius: 6px;
+    cursor: pointer;
+`;
 
-const DivisionsContainer = styled.div`
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-height: 180px;
+`;
+
+const ContainerHeader = styled.p`
+   font-family: Alegreya;
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0;
 `;
 
 const WorkersTable = styled.table`
@@ -44,6 +59,8 @@ const App: FC = () => {
   const [divisionCreateModalState, setCreateModalState] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { divisions, workers } = useSelector((state) => state.all);
+  const { errorMessage } = useSelector((state) => state.errors);
+  const [isFirstStep, changeStep] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(getAllDivisionsThunk());
@@ -59,9 +76,18 @@ const App: FC = () => {
     setCreateModalState(!divisionCreateModalState);
   };
 
+  const getPreviosDivisions = (evt: MouseEvent) => {
+    evt.stopPropagation()
+    dispatch(getPreviousDivisionsThunk(divisions![0].parentDivision, changeStep))
+ 
+  }
+
   return (
     <MainSection>
-      <DivisionsContainer>
+      <ContentContainer>
+        {isFirstStep && <Button onClick={handleCreateModalState}>Создать подразделение</Button>}
+        {!isFirstStep && <Button onClick={(evt)=> getPreviosDivisions(evt)} >Назад</Button>}
+        <ContainerHeader>Подразделения</ContainerHeader>
         {divisions && divisions.map((el) => (
           <DivisionItem
             key={el.id}
@@ -71,27 +97,33 @@ const App: FC = () => {
             onClick={(evt: MouseEvent<Element>) =>
             { evt.stopPropagation(); dispatch(getWorkersThunk(el.id)); }}
             arrowIconClick={(evt: MouseEvent<Element>) =>
-            { evt.stopPropagation(); dispatch(getAllDivisionsThunk(el.id)); }}
+            {
+              evt.stopPropagation();
+              dispatch(getAllDivisionsThunk(changeStep, el.id));
+              
+            }}
             openSettingsMenu={(evt: MouseEvent<Element>) =>
             { evt.stopPropagation(); handleDivisionModal(); }} />
 
         ))}
-      </DivisionsContainer>
-      <WorkersTable>
-        <tbody>
-          {workers && <WorkerItem isHeader />}
-          {workers && workers.map((el) => (
-            <WorkerItem
-              key={el.id}
-              fullName={el.fullName}
-              position={el.position}
-              hasDriverLicense={el.hasDriverLicense ? 'Да' : 'Нет'}
-              gender={el.gender}
-              birthDate={el.dateOfBirth} />
-          ))}
-        </tbody>
-      </WorkersTable>
-
+      </ContentContainer>
+      <ContentContainer>
+        <ContainerHeader>Сотрудники</ContainerHeader>
+        <WorkersTable>
+          <tbody>
+            {workers && <WorkerItem isHeader />}
+            {workers && workers.map((el) => (
+              <WorkerItem
+                key={el.id}
+                fullName={el.fullName}
+                position={el.position}
+                hasDriverLicense={el.hasDriverLicense ? 'Да' : 'Нет'}
+                gender={el.gender}
+                birthDate={el.dateOfBirth} />
+            ))}
+          </tbody>
+        </WorkersTable>
+      </ContentContainer>
       {workerModalState && (
       <Modal onClose={handleWorkerModal}>
         <WorkerSettings />
@@ -122,6 +154,5 @@ const App: FC = () => {
 };
 
 export default App;
-
 
 /// разобоаться с озданиями всех. починить модалку и типизировать танки

@@ -1,93 +1,128 @@
 {
-    "divisions": [{
-            "id": 1,
-            "name": "электрики",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с электричеством",
-            "parentDivision": 0
-        },
-        {
-            "id": 2,
-            "name": "сантехники",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с водой",
-            "parentDivision": 0
-        },
-        {
-            "id": 3,
-            "name": "слесари",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с инструментом",
-            "parentDivision": 0
-        },
-        {
-            "id": 4,
-            "name": "слесари",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с инструментом",
-            "parentDivision": 1
-        },
-        {
-            "id": 5,
-            "name": "слесари",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с инструментом",
-            "parentDivision": 1
-        }
-
-
-    ],
-    "workers": [{
-            "id": 1,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": true,
-            "division": 1
-        },
-        {
-            "id": 2,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": true,
-            "division": 2
-        }, {
-            "id": 3,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": false,
-            "division": 2
-        },
-        {
-            "id": 4,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": false,
-            "division": 3
-        },
-        {
-            "id": 5,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": true,
-            "division": 1
-        }
-
-
-
-
-
-
-
-    ]
-
+  "divisions": [
+    {
+      "id": 1,
+      "name": "электрики",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с электричеством",
+      "parentDivision": 0
+    },
+    {
+      "id": 2,
+      "name": "сантехники",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с водой",
+      "parentDivision": 0
+    },
+    {
+      "id": 3,
+      "name": "слесари",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с инструментом",
+      "parentDivision": 0
+    },
+    {
+      "id": 4,
+      "name": "слесари",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с инструментом",
+      "parentDivision": 1
+    },
+    {
+      "id": 5,
+      "name": "слесари",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с инструментом",
+      "parentDivision": 1
+    },
+    {
+      "name": "водители",
+      "description": "подразделение водителей",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 6
+    },
+    {
+      "name": "водители",
+      "description": "подразделение водителей",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 7
+    },
+    {
+      "name": "монтажниаи",
+      "description": "монтажники",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 8
+    },
+    {
+      "name": "рррр",
+      "description": "ллллл",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 9
+    },
+    {
+      "name": ";;;;;",
+      "description": "kjkjk",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 10
+    },
+    {
+      "name": "565",
+      "description": "ujj",
+      "createdAt": "4/10/2023",
+      "parentDivision": 0,
+      "id": 11
+    }
+  ],
+  "workers": [
+    {
+      "id": 1,
+      "fullName": "Иванов Иван Иванович",
+      "dateOfBirth": "05.12.2000",
+      "gender": "male",
+      "position": "Директор",
+      "hasDriverLicense": true,
+      "division": 1
+    },
+    {
+      "id": 2,
+      "fullName": "Иванов Иван Иванович",
+      "dateOfBirth": "05.12.2000",
+      "gender": "male",
+      "position": "Директор",
+      "hasDriverLicense": true,
+      "division": 2
+    },
+    {
+      "id": 3,
+      "fullName": "Иванов Иван Иванович",
+      "dateOfBirth": "05.12.2000",
+      "gender": "male",
+      "position": "Директор",
+      "hasDriverLicense": false,
+      "division": 2
+    },
+    {
+      "id": 4,
+      "fullName": "Иванов Иван Иванович",
+      "dateOfBirth": "05.12.2000",
+      "gender": "male",
+      "position": "Директор",
+      "hasDriverLicense": false,
+      "division": 3
+    },
+    {
+      "id": 5,
+      "fullName": "Иванов Иван Иванович",
+      "dateOfBirth": "05.12.2000",
+      "gender": "male",
+      "position": "Директор",
+      "hasDriverLicense": true,
+      "division": 1
+    }
+  ]
 }
