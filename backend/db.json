@@ -22,13 +22,6 @@
       "id": 4
     },
     {
-      "name": "вм",
-      "description": "вав",
-      "createdAt": "4/11/2023",
-      "parentDivision": 1,
-      "id": 5
-    },
-    {
       "name": "монтажник",
       "description": "высотники",
       "createdAt": "4/11/2023",
@@ -41,6 +34,20 @@
       "createdAt": "4/11/2023",
       "parentDivision": 6,
       "id": 7
+    },
+    {
+      "name": "jfh",
+      "description": "fhh",
+      "createdAt": "4/11/2023",
+      "parentDivision": 0,
+      "id": 8
+    },
+    {
+      "name": "fh",
+      "description": "fh",
+      "createdAt": "4/11/2023",
+      "parentDivision": 8,
+      "id": 9
     }
   ],
   "workers": [
