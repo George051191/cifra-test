@@ -8,13 +8,6 @@
       "parentDivision": 0
     },
     {
-      "id": 2,
-      "name": "сантехники",
-      "createdAt": "05.08.1968",
-      "description": "подразделение по работе с водой",
-      "parentDivision": 0
-    },
-    {
       "name": "менеджеры",
       "description": "gggg",
       "createdAt": "4/11/2023",
@@ -22,25 +15,25 @@
       "id": 4
     },
     {
-      "name": "вм",
-      "description": "вав",
-      "createdAt": "4/11/2023",
-      "parentDivision": 1,
-      "id": 5
-    },
-    {
-      "name": "монтажник",
-      "description": "высотники",
-      "createdAt": "4/11/2023",
-      "parentDivision": 0,
-      "id": 6
-    },
-    {
       "name": "высотники",
       "description": "монтажники",
       "createdAt": "4/11/2023",
       "parentDivision": 6,
       "id": 7
+    },
+    {
+      "name": "fh",
+      "description": "fh",
+      "createdAt": "4/11/2023",
+      "parentDivision": 8,
+      "id": 9
+    },
+    {
+      "name": "стажеры",
+      "description": "стажеры",
+      "createdAt": "4/11/2023",
+      "parentDivision": 0,
+      "id": 10
     }
   ],
   "workers": [
@@ -51,7 +44,7 @@
       "gender": "мужской",
       "position": "Директор",
       "hasDriverLicense": false,
-      "division": 2
+      "division": 1
     },
     {
       "name": "kfjgkfgjshggh@mail.ru",
@@ -72,6 +65,33 @@
       "gender": "мужской",
       "division": 3,
       "id": 12
+    },
+    {
+      "fullName": "55",
+      "dateOfBirth": "55",
+      "position": "555",
+      "hasDriverLicense": true,
+      "gender": "мужской",
+      "division": 10,
+      "id": 13
+    },
+    {
+      "fullName": "fff",
+      "dateOfBirth": "fff",
+      "position": "fff",
+      "hasDriverLicense": true,
+      "gender": "мужской",
+      "division": 2,
+      "id": 14
+    },
+    {
+      "fullName": "v",
+      "dateOfBirth": "v",
+      "position": "v",
+      "hasDriverLicense": true,
+      "gender": "мужской",
+      "division": 11,
+      "id": 15
     }
   ]
 }

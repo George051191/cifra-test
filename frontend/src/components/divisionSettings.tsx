@@ -1,12 +1,10 @@
-/* eslint-disable max-len */
-/* eslint-disable linebreak-style */
 /* eslint-disable no-param-reassign */
+/* eslint-disable max-len */
 /* eslint-disable default-case */
 import React, {
   ChangeEvent, ChangeEventHandler, FC, MouseEvent, FormEvent, useState,
 } from 'react';
 import styled from 'styled-components';
-import { TDvisionSettings } from '../services/types';
 import { useSelector, useDispatch } from '../services/hooks';
 import InputWithSelect from './inputWithSelect';
 import changeDivisionDataThunk from '../thunks/change-division-data-thunk';
@@ -62,12 +60,20 @@ const LicenseTitle = styled.p`
 
 const DivisionSettings: FC = () => {
   const dispatch = useDispatch();
-  const { division } = useSelector((state) => state.view);
+  const division = useSelector((state) => state.view.division)
+  ?? {
+    id: null,
+    name: '',
+    createdAt: '',
+    description: '',
+    parentDivision: null,
+  };
+
   const [changeDataForm, setNewData] = useState<{ name: string, description: string }>({
-    name: division!.name,
-    description: division!.description,
+    name: division.name,
+    description: division.description,
   });
-  const [optionValue, setValue] = useState<string>();
+  const [optionValue, setValue] = useState<string>('');
   const [driverLicense, setDriverLicenseStatus] = useState<boolean>(true);
 
   const [newDivisionData, setData] = useState({
@@ -94,13 +100,13 @@ const DivisionSettings: FC = () => {
     switch (evt.target.name) {
       case 'name': {
         if (evt.target.value === '') {
-          evt.target.value = division!.name;
+          evt.target.value = division.name;
         }
         break;
       }
       case 'description': {
         if (evt.target.value === '') {
-          evt.target.value = division!.description;
+          evt.target.value = division.description;
         }
         break;
       }
@@ -129,17 +135,17 @@ const DivisionSettings: FC = () => {
 
   const changeDivision = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(changeDivisionDataThunk(division!.id, changeDataForm, division!.parentDivision));
+    dispatch(changeDivisionDataThunk(division.id, changeDataForm, division.parentDivision));
   };
 
   const deleteDivision = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
-    dispatch(deleteDivisionThunk(division!.id, division!.parentDivision));
+    dispatch(deleteDivisionThunk(division.id, division.parentDivision));
   };
 
   const createDivision = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(createDivisionThunk(newDivisionData, division!.id));
+    dispatch(createDivisionThunk(newDivisionData, division.id));
   };
 
   const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +164,7 @@ const DivisionSettings: FC = () => {
       gender: optionValue,
     };
     evt.preventDefault();
-    dispatch(createWorkerThunk(workerData, division!.id));
+    dispatch(createWorkerThunk(workerData, division.id));
   };
 
   return (
@@ -181,7 +187,7 @@ const DivisionSettings: FC = () => {
         <Input name='birthDate' id='birthDate' value={changeDataFormWorker.birthDate} onChange={onChangeWorkersInput} />
         <Label htmlFor='position'>Должность</Label>
         <Input name='position' id='position' value={changeDataFormWorker.position} onChange={onChangeWorkersInput} />
-        <InputWithSelect title='Пол' optionValue={optionValue!} setValue={setValue} dataArray={['мужской', 'женский']} />
+        <InputWithSelect title='Пол' optionValue={optionValue} setValue={setValue} dataArray={['мужской', 'женский']} />
         <LicenseTitle>Наличие водительских прав</LicenseTitle>
         <Label htmlFor='licenseTrue'>Да</Label>
         <Input type='radio' name='license' id='licenseTrue' value='Да' onChange={setDriverLicense} />
