@@ -12,7 +12,6 @@ import InputWithSelect from './inputWithSelect';
 import changeWorkerThunk from '../thunks/change-worker-thunk';
 import deleteWorkerThunk from '../thunks/delete-worker-thunk';
 import getAllDivisionsThunk from '../thunks/get-divisions-thunk';
-import { TDivision } from '../services/types';
 import { setCurrentWorkerDivision } from '../store/viewSlice';
 
 const Form = styled.form`
@@ -42,6 +41,9 @@ const FieldSet = styled.fieldset`
     border: none;
     display: flex;
     flex-direction: column;
+`;
+const Legend = styled.legend`
+    
 `;
 
 const Button = styled.button`
@@ -112,7 +114,7 @@ const WorkerSettings: FC = () => {
     dispatch(deleteWorkerThunk(worker!.id, worker!.division));
   };
   return (
-    <Form onSubmit={(evt) => changeWorkerData(evt)}>
+    <Form onSubmit={changeWorkerData}>
       <FieldSet>
         <Label htmlFor='name'>ФИО</Label>
         <Input name='name' id='name' value={changeDataForm.name} onChange={onChange} />

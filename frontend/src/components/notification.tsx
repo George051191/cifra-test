@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { TNotification } from '../services/types';
 
-
 const ErrorDiv = styled.div`
   background: #ce5472;
   width: 200px;
@@ -14,7 +13,6 @@ const ErrorDiv = styled.div`
   z-index: 100;
   text-align: center;
 `;
-
 
 const Notification:FC<TNotification> = ({ errorMessage }) => (
   <ErrorDiv>{errorMessage}</ErrorDiv>

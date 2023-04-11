@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, {
-  FC, MouseEvent, useState, useEffect,
+  FC, MouseEvent, useState, useEffect, ChangeEvent, FormEvent, ChangeEventHandler,
 } from 'react';
 import styled from 'styled-components';
 import DivisionItem from '../components/divisionItem';
@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from '../services/hooks';
 import getPreviousDivisionsThunk from '../thunks/get-previous-divisions-thunk';
 import { setCurrentDivision, setCurrentWorker } from '../store/viewSlice';
 import { TWorker } from '../services/types';
+import createDivisionThunk from '../thunks/create-division-thunk';
 
 const MainSection = styled.section`
   display: flex;
@@ -65,6 +66,22 @@ const App: FC = () => {
   const { divisions, workers } = useSelector((state) => state.all);
   const { currentLevel, previousDivision } = useSelector((state) => state.view);
 
+  const [newDivisionData, setData] = useState({
+    name: '',
+    description: '',
+  });
+
+  const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...newDivisionData,
+      [evt.target.name]: evt.target.value,
+    });
+  };
+
+  const createDivision = (evt:FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(createDivisionThunk(newDivisionData));
+  };
 
   useEffect(() => {
     dispatch(getAllDivisionsThunk());
@@ -140,7 +157,12 @@ const App: FC = () => {
       )}
       {divisionCreateModalState && (
       <Modal onClose={handleCreateModalState}>
-        <CreateDivision />
+        <CreateDivision
+          title='Создать подразделение'
+          name={newDivisionData.name}
+          description={newDivisionData.description}
+          onInputChange={setDataForNewDivision}
+          onSubmit={createDivision} />
       </Modal>
       )}
     </MainSection>
@@ -148,4 +170,3 @@ const App: FC = () => {
 };
 
 export default App;
-

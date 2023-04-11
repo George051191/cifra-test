@@ -1,56 +1,77 @@
 {
-    "divisions": [{
-            "id": 1,
-            "name": "машинисты",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с электричеством",
-            "parentDivision": 0
-        },
-        {
-            "id": 2,
-            "name": "сантехники",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с водой",
-            "parentDivision": 0
-        },
-        {
-            "id": 3,
-            "name": "слесари",
-            "createdAt": "05.08.1968",
-            "description": "подразделение по работе с инструментом",
-            "parentDivision": 0
-        }
-
-    ],
-    "workers": [{
-            "id": 3,
-            "fullName": "Иванов Иван Иванович",
-            "dateOfBirth": "05.12.2000",
-            "gender": "male",
-            "position": "Директор",
-            "hasDriverLicense": false,
-            "division": 2
-        },
-        {
-            "name": "kfjgkfgjshggh@mail.ru",
-            "birthDate": "05.11.2000",
-            "position": "менеджер",
-            "hasDriverLicense": false,
-            "gender": "мужской",
-            "division": 2,
-            "id": 9,
-            "fullName": "gfdgf",
-            "dateOfBirth": "fgfgf"
-        },
-        {
-            "fullName": "ghfghfd",
-            "dateOfBirth": "fgfdfg",
-            "position": "ffffff",
-            "hasDriverLicense": false,
-            "gender": "мужской",
-            "division": 1,
-            "id": 11
-        }
-
-    ]
+  "divisions": [
+    {
+      "id": 1,
+      "name": "машинисты",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с электричеством",
+      "parentDivision": 0
+    },
+    {
+      "id": 2,
+      "name": "сантехники",
+      "createdAt": "05.08.1968",
+      "description": "подразделение по работе с водой",
+      "parentDivision": 0
+    },
+    {
+      "name": "менеджеры",
+      "description": "gggg",
+      "createdAt": "4/11/2023",
+      "parentDivision": 0,
+      "id": 4
+    },
+    {
+      "name": "вм",
+      "description": "вав",
+      "createdAt": "4/11/2023",
+      "parentDivision": 1,
+      "id": 5
+    },
+    {
+      "name": "монтажник",
+      "description": "высотники",
+      "createdAt": "4/11/2023",
+      "parentDivision": 0,
+      "id": 6
+    },
+    {
+      "name": "высотники",
+      "description": "монтажники",
+      "createdAt": "4/11/2023",
+      "parentDivision": 6,
+      "id": 7
+    }
+  ],
+  "workers": [
+    {
+      "id": 3,
+      "fullName": "Иванов Иван Ивановича",
+      "dateOfBirth": "05.12.2025",
+      "gender": "мужской",
+      "position": "Директор",
+      "hasDriverLicense": false,
+      "division": 2
+    },
+    {
+      "name": "kfjgkfgjshggh@mail.ru",
+      "birthDate": "05.11.2000",
+      "position": "менеджер",
+      "hasDriverLicense": false,
+      "gender": "мужской",
+      "division": 4,
+      "id": 9,
+      "fullName": "gfdgf",
+      "dateOfBirth": "fgfgf"
+    },
+    {
+      "fullName": "tyt",
+      "dateOfBirth": "tyt",
+      "position": "tyt",
+      "hasDriverLicense": true,
+      "gender": "мужской",
+      "division": 3,
+      "id": 12
+    }
+  ]
 }
