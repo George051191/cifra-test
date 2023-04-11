@@ -63,7 +63,8 @@ const App: FC = () => {
   const [divisionModalState, setDivisionModalState] = useState<boolean>(false);
   const [divisionCreateModalState, setCreateModalState] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { divisions, workers } = useSelector((state) => state.all);
+  const divisions = useSelector((state) => state.all.divisions) ?? [];
+  const workers = useSelector((state) => state.all.workers) ?? [];
   const { currentLevel, previousDivision } = useSelector((state) => state.view);
 
   const [newDivisionData, setData] = useState({
@@ -101,7 +102,7 @@ const App: FC = () => {
 
   const getPreviosDivisions = (evt: MouseEvent) => {
     evt.stopPropagation();
-    dispatch(getPreviousDivisionsThunk(previousDivision > 0 ? previousDivision : divisions![0].parentDivision));
+    dispatch(getPreviousDivisionsThunk(previousDivision > 0 ? previousDivision : divisions[0].parentDivision));
   };
 
   return (
