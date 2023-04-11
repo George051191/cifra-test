@@ -13,6 +13,7 @@ import changeDivisionDataThunk from '../thunks/change-division-data-thunk';
 import deleteDivisionThunk from '../thunks/delete-division-thunk';
 import createDivisionThunk from '../thunks/create-division-thunk';
 import createWorkerThunk from '../thunks/create-worker-thunk';
+import CreateDivision from './createDivision';
 
 const Wrapper = styled.div`
     display: flex;
@@ -133,7 +134,7 @@ const DivisionSettings: FC = () => {
 
   const deleteDivision = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
-    dispatch(deleteDivisionThunk(division!.id, division!.parentDivision))
+    dispatch(deleteDivisionThunk(division!.id, division!.parentDivision));
   };
 
   const createDivision = (evt: FormEvent<HTMLFormElement>) => {
@@ -155,14 +156,14 @@ const DivisionSettings: FC = () => {
       position: changeDataFormWorker.position,
       hasDriverLicense: driverLicense,
       gender: optionValue,
-    }
+    };
     evt.preventDefault();
     dispatch(createWorkerThunk(workerData, division!.id));
-  }
+  };
 
   return (
     <Wrapper>
-      <Form onSubmit={(evt) => changeDivision(evt)}>
+      <Form onSubmit={changeDivision}>
         <FieldSet>
           <Label htmlFor='name'>Наименование</Label>
           <Input onBlur={onBlur} name='name' id='name' value={changeDataForm.name} onChange={onChange} />
@@ -172,7 +173,7 @@ const DivisionSettings: FC = () => {
         <Button type='submit'>Отправить изменения</Button>
         <Button onClick={(evt) => deleteDivision(evt)} type='button'>Удалить подразделение</Button>
       </Form>
-      <Form onSubmit={(evt)=> addWorker(evt)}>
+      <Form onSubmit={addWorker}>
         <Legend>Добавить сотрудника</Legend>
         <Label htmlFor='name'>ФИО</Label>
         <Input name='name' id='name' value={changeDataFormWorker.name} onChange={onChangeWorkersInput} />
@@ -188,20 +189,15 @@ const DivisionSettings: FC = () => {
         <Input type='radio' name='license' id='licenseFalse' value='Нет' onChange={setDriverLicense} />
         <Button type='submit'>Создать работника</Button>
       </Form>
-      <Form onSubmit={(evt) => createDivision(evt)}>
-        <Legend>Создать дочернее подразделение</Legend>
-        <Label htmlFor='name'>Наименование</Label>
-        <Input name='name' id='name' value={newDivisionData.name} onChange={setDataForNewDivision} />
-        <Label htmlFor='description'> Описание</Label>
-        <Input name='description' id='description' value={newDivisionData.description} onChange={setDataForNewDivision} />
-        <Button type='submit'>Создать подразделение</Button>
-      </Form>
-
+      <CreateDivision
+        title='Создать дочернее подразделение'
+        name={newDivisionData.name}
+        description={newDivisionData.description}
+        onInputChange={setDataForNewDivision}
+        onSubmit={createDivision} />
     </Wrapper>
 
   );
 };
 
 export default DivisionSettings;
-
-
