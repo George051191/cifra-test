@@ -1,5 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, {
-  FC, MouseEventHandler, MouseEvent, useState, useEffect,
+  FC, MouseEvent, useState, useEffect,
 } from 'react';
 import styled from 'styled-components';
 import DivisionItem from '../components/divisionItem';
@@ -8,11 +10,12 @@ import Modal from '../components/modal';
 import DivisionSettings from '../components/divisionSettings';
 import CreateDivision from '../components/createDivision';
 import WorkerSettings from '../components/workerSettings';
-import Notification from '../components/notification';
 import getAllDivisionsThunk from '../thunks/get-divisions-thunk';
 import getWorkersThunk from '../thunks/get-workers-thunk';
 import { useDispatch, useSelector } from '../services/hooks';
 import getPreviousDivisionsThunk from '../thunks/get-previous-divisions-thunk';
+import { setCurrentDivision, setCurrentWorker } from '../store/viewSlice';
+import { TWorker } from '../services/types';
 
 const MainSection = styled.section`
   display: flex;
@@ -51,6 +54,7 @@ const WorkersTable = styled.table`
   font-family: Alegreya;
   font-size: 17px;
   font-weight: 400;
+  cursor: pointer;
 `;
 
 const App: FC = () => {
@@ -59,14 +63,16 @@ const App: FC = () => {
   const [divisionCreateModalState, setCreateModalState] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { divisions, workers } = useSelector((state) => state.all);
-  const { errorMessage } = useSelector((state) => state.errors);
-  const [isFirstStep, changeStep] = useState<boolean>(true);
+  const { currentLevel, previousDivision } = useSelector((state) => state.view);
+
 
   useEffect(() => {
     dispatch(getAllDivisionsThunk());
   }, [dispatch]);
 
-  const handleWorkerModal = () => {
+  const handleWorkerModal = (evt: MouseEvent<Element>, el?:TWorker) => {
+    evt.stopPropagation();
+    dispatch(setCurrentWorker(el!));
     setWorkerModalState(!workerModalState);
   };
   const handleDivisionModal = () => {
@@ -77,16 +83,15 @@ const App: FC = () => {
   };
 
   const getPreviosDivisions = (evt: MouseEvent) => {
-    evt.stopPropagation()
-    dispatch(getPreviousDivisionsThunk(divisions![0].parentDivision, changeStep))
- 
-  }
+    evt.stopPropagation();
+    dispatch(getPreviousDivisionsThunk(previousDivision > 0 ? previousDivision : divisions![0].parentDivision));
+  };
 
   return (
     <MainSection>
       <ContentContainer>
-        {isFirstStep && <Button onClick={handleCreateModalState}>Создать подразделение</Button>}
-        {!isFirstStep && <Button onClick={(evt)=> getPreviosDivisions(evt)} >Назад</Button>}
+        {currentLevel === 0 && <Button onClick={handleCreateModalState}>Создать подразделение</Button>}
+        {currentLevel > 0 && <Button onClick={(evt) => getPreviosDivisions(evt)}>Назад</Button>}
         <ContainerHeader>Подразделения</ContainerHeader>
         {divisions && divisions.map((el) => (
           <DivisionItem
@@ -94,16 +99,13 @@ const App: FC = () => {
             itemName={el.name}
             createdAt={el.createdAt}
             description={el.description}
-            onClick={(evt: MouseEvent<Element>) =>
-            { evt.stopPropagation(); dispatch(getWorkersThunk(el.id)); }}
-            arrowIconClick={(evt: MouseEvent<Element>) =>
-            {
+            onClick={(evt: MouseEvent<Element>) => { evt.stopPropagation(); dispatch(getWorkersThunk(el.id)); }}
+            arrowIconClick={(evt: MouseEvent<Element>) => {
               evt.stopPropagation();
-              dispatch(getAllDivisionsThunk(changeStep, el.id));
-              
+              const specKey = false;
+              dispatch(getAllDivisionsThunk(specKey, el.id));
             }}
-            openSettingsMenu={(evt: MouseEvent<Element>) =>
-            { evt.stopPropagation(); handleDivisionModal(); }} />
+            openSettingsMenu={(evt: MouseEvent<Element>) => { evt.stopPropagation(); handleDivisionModal(); dispatch(setCurrentDivision(el)); }} />
 
         ))}
       </ContentContainer>
@@ -119,19 +121,21 @@ const App: FC = () => {
                 position={el.position}
                 hasDriverLicense={el.hasDriverLicense ? 'Да' : 'Нет'}
                 gender={el.gender}
-                birthDate={el.dateOfBirth} />
+                birthDate={el.dateOfBirth}
+                openModal={(evt) => { handleWorkerModal(evt, el); }} />
+
             ))}
           </tbody>
         </WorkersTable>
       </ContentContainer>
       {workerModalState && (
-      <Modal onClose={handleWorkerModal}>
+      <Modal onClose={(evt) => handleWorkerModal(evt)}>
         <WorkerSettings />
       </Modal>
       )}
       {divisionModalState && (
       <Modal onClose={handleDivisionModal}>
-        <DivisionSettings name='' description='' createdAt='' />
+        <DivisionSettings />
       </Modal>
       )}
       {divisionCreateModalState && (
@@ -139,20 +143,9 @@ const App: FC = () => {
         <CreateDivision />
       </Modal>
       )}
-      {/*  <WorkerItem isHeader/>
-    <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' />
-    <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' />
-    <WorkerItem fullName='ivanov' position='director' hasDriverLicense gender='male' birthDate='05/11/2000' /> */}
-      {/*  <DivisionItem arrowIconClick={() => console.log(577)}
-      description='fhhf sudjudh dhudush dunsndjnjdsnjdnjsdn ndsjnjndjnjsndjnd'
-      createdAt='05/11/91'
-      itemName='electrici'
-      hasParent
-      onClick={() => console.log(123)} /> */}
     </MainSection>
   );
 };
 
 export default App;
 
-/// разобоаться с озданиями всех. починить модалку и типизировать танки

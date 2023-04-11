@@ -1,8 +1,19 @@
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable max-len */
 /* eslint-disable default-case */
 import React, {
-  ChangeEvent, ChangeEventHandler, FC, useState,
+  ChangeEvent, ChangeEventHandler, FC, FormEvent, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from '../services/hooks';
+import InputWithSelect from './inputWithSelect';
+import changeWorkerThunk from '../thunks/change-worker-thunk';
+import deleteWorkerThunk from '../thunks/delete-worker-thunk';
+import getAllDivisionsThunk from '../thunks/get-divisions-thunk';
+import { TDivision } from '../services/types';
+import { setCurrentWorkerDivision } from '../store/viewSlice';
 
 const Form = styled.form`
     display: flex;
@@ -41,14 +52,27 @@ const Button = styled.button`
 `;
 
 const WorkerSettings: FC = () => {
+  const {
+    worker, currentDivisions, divisionsArray, currentWorkerDivision,
+  } = useSelector((state) => state.view);
+  const [optionValueDivision, setValueForDivision] = useState<string>(currentWorkerDivision);
+  const dispatch = useDispatch();
   const [changeDataForm, setNewData] = useState({
-    name: '',
-    birthDate: '',
-    gender: '',
-    position: '',
+    name: worker?.fullName,
+    birthDate: worker?.dateOfBirth,
+    position: worker?.position,
   });
-
+  const [optionValue, setValue] = useState<string>(worker!.gender);
   const [driverLicense, setDriverLicenseStatus] = useState<boolean>();
+
+  useEffect(() => {
+    const specKey = true;
+    dispatch(getAllDivisionsThunk(specKey));
+
+    return () => {
+      dispatch(setCurrentWorkerDivision(''));
+    };
+  }, [dispatch]);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.stopPropagation();
@@ -59,7 +83,7 @@ const WorkerSettings: FC = () => {
   };
 
   const setDriverLicense:ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
-      evt.stopPropagation();
+    evt.stopPropagation();
     switch (evt.target.value) {
       case 'Да': {
         setDriverLicenseStatus(true);
@@ -69,25 +93,32 @@ const WorkerSettings: FC = () => {
         setDriverLicenseStatus(false);
         break;
       }
-      }
-      console.log(driverLicense)
+    }
   };
-
-  const changeWorkerData = () => {
-    /// запрос на изменение рабочего
+  const changeValue = useCallback(() => divisionsArray?.find((el) => el.name === optionValueDivision)?.id, [divisionsArray, optionValueDivision]);
+  const changeWorkerData = (evt:FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const changedData = {
+      fullName: changeDataForm.name,
+      dateOfBirth: changeDataForm.birthDate,
+      gender: optionValue,
+      position: changeDataForm.position,
+      hasDriverLicense: driverLicense,
+      division: changeValue(),
+    };
+    dispatch(changeWorkerThunk(changedData, worker!.id, worker?.division, changedData.division));
   };
   const deleteWorker = () => {
-    /// запрос на удаление
+    dispatch(deleteWorkerThunk(worker!.id, worker!.division));
   };
   return (
-    <Form onSubmit={changeWorkerData}>
+    <Form onSubmit={(evt) => changeWorkerData(evt)}>
       <FieldSet>
         <Label htmlFor='name'>ФИО</Label>
         <Input name='name' id='name' value={changeDataForm.name} onChange={onChange} />
         <Label htmlFor='birthDate'>Дата рождения</Label>
         <Input name='birthDate' id='birthDate' value={changeDataForm.birthDate} onChange={onChange} />
-        <Label htmlFor='gender'>Пол</Label>
-        <Input name='gender' id='gender' value={changeDataForm.gender} onChange={onChange} />
+        <InputWithSelect title='Пол' optionValue={optionValue} setValue={setValue} dataArray={['мужской', 'женский']} />
         <Label htmlFor='position'>Должность</Label>
         <Input name='position' id='position' value={changeDataForm.position} onChange={onChange} />
         <LicenseTitle>Наличие водительских прав</LicenseTitle>
@@ -95,14 +126,12 @@ const WorkerSettings: FC = () => {
         <Input type='radio' name='license' id='licenseTrue' value='Да' onChange={setDriverLicense} />
         <Label htmlFor='licenseFalse'>Нет</Label>
         <Input type='radio' name='license' id='licenseFalse' value='Нет' onChange={setDriverLicense} />
+        <InputWithSelect optionValue={optionValueDivision} setValue={setValueForDivision} dataArray={currentDivisions} title='Изменить подразделение' />
       </FieldSet>
       <Button type='submit'>Отправить изменения</Button>
-      <Button onClick={deleteWorker} type='button'>Удалить подразделение</Button>
+      <Button onClick={deleteWorker} type='button'>Удалить работника</Button>
     </Form>
   );
 };
 
 export default WorkerSettings;
-/// / создание рабочего сделаьб еще
-/// разобраться с инпутами
-/// инпут с селектом добавить

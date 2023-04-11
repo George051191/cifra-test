@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
-  useEffect, useMemo, FC, MouseEventHandler,
+  useEffect, useMemo, FC, MouseEventHandler, MouseEvent,
 } from 'react';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
@@ -52,10 +56,10 @@ const ModalDialog = styled.div`
 const Modal : FC<TModalProps> = ({ onClose, children }) => {
   const portalRoot = useMemo(() => document.getElementById('modal'), []) as Element;
   useEffect(() => {
-    const handleEscClose = (evt: KeyboardEvent): void => {
+    const handleEscClose = (evt: any): void => {
       evt.stopPropagation();
       if (evt.key === 'Escape') {
-        onClose();
+        onClose(evt);
       }
     };
     document.addEventListener('keydown', handleEscClose);
@@ -63,7 +67,7 @@ const Modal : FC<TModalProps> = ({ onClose, children }) => {
       document.removeEventListener('keydown', handleEscClose);
     };
   }, [onClose, portalRoot]);
-  const onCloseClick : MouseEventHandler = () => onClose();
+  const onCloseClick : MouseEventHandler = (evt) => onClose(evt);
 
   return ReactDOM.createPortal(
     (

@@ -3,10 +3,16 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable default-case */
 import React, {
-  ChangeEvent, ChangeEventHandler, FC, useState,
+  ChangeEvent, ChangeEventHandler, FC, MouseEvent, FormEvent, useState,
 } from 'react';
 import styled from 'styled-components';
 import { TDvisionSettings } from '../services/types';
+import { useSelector, useDispatch } from '../services/hooks';
+import InputWithSelect from './inputWithSelect';
+import changeDivisionDataThunk from '../thunks/change-division-data-thunk';
+import deleteDivisionThunk from '../thunks/delete-division-thunk';
+import createDivisionThunk from '../thunks/create-division-thunk';
+import createWorkerThunk from '../thunks/create-worker-thunk';
 
 const Wrapper = styled.div`
     display: flex;
@@ -53,16 +59,15 @@ const LicenseTitle = styled.p`
     padding: 0;
 `;
 
-
-const DivisionSettings: FC<TDvisionSettings> = ({
-  name, description, createdAt,
-}) => {
-  const [changeDataForm, setNewData] = useState({
-    name,
-    description,
+const DivisionSettings: FC = () => {
+  const dispatch = useDispatch();
+  const { division } = useSelector((state) => state.view);
+  const [changeDataForm, setNewData] = useState<{ name: string, description: string }>({
+    name: division!.name,
+    description: division!.description,
   });
-
-  const [driverLicense, setDriverLicenseStatus] = useState<boolean>();
+  const [optionValue, setValue] = useState<string>();
+  const [driverLicense, setDriverLicenseStatus] = useState<boolean>(true);
 
   const [newDivisionData, setData] = useState({
     name: '',
@@ -72,7 +77,6 @@ const DivisionSettings: FC<TDvisionSettings> = ({
   const [changeDataFormWorker, setNewDataForWorker] = useState({
     name: '',
     birthDate: '',
-    gender: '',
     position: '',
   });
 
@@ -89,13 +93,13 @@ const DivisionSettings: FC<TDvisionSettings> = ({
     switch (evt.target.name) {
       case 'name': {
         if (evt.target.value === '') {
-          evt.target.value = name;
+          evt.target.value = division!.name;
         }
         break;
       }
       case 'description': {
         if (evt.target.value === '') {
-          evt.target.value = description;
+          evt.target.value = division!.description;
         }
         break;
       }
@@ -103,38 +107,38 @@ const DivisionSettings: FC<TDvisionSettings> = ({
   };
 
   const onChangeWorkersInput: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
-    evt.stopPropagation();
     setNewDataForWorker({
       ...changeDataFormWorker,
       [evt.target.name]: evt.target.value,
     });
-  }
+  };
 
   const setDriverLicense:ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
-    evt.stopPropagation();
     switch (evt.target.value) {
-      case 'Да': {
-        setDriverLicenseStatus(true);
-        break;
-      }
       case 'Нет': {
         setDriverLicenseStatus(false);
+        break;
+      }
+      case 'Да': {
+        setDriverLicenseStatus(true);
         break;
       }
     }
   };
 
-  const changeDivision = () => {
-    /// уходит запрос на изменение данных
+  const changeDivision = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(changeDivisionDataThunk(division!.id, changeDataForm, division!.parentDivision));
   };
 
-  const deleteDivision = () => {
-    console.log(978);
-    /// запрос на удаление дивизии
+  const deleteDivision = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+    dispatch(deleteDivisionThunk(division!.id, division!.parentDivision))
   };
 
-  const createDivision = () => {
-    /// запрос на создание с указанием родителя у дивизии
+  const createDivision = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(createDivisionThunk(newDivisionData, division!.id));
   };
 
   const setDataForNewDivision: ChangeEventHandler<HTMLInputElement> = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -144,9 +148,21 @@ const DivisionSettings: FC<TDvisionSettings> = ({
     });
   };
 
+  const addWorker = (evt: FormEvent<HTMLFormElement>) => {
+    const workerData = {
+      fullName: changeDataFormWorker.name,
+      dateOfBirth: changeDataFormWorker.birthDate,
+      position: changeDataFormWorker.position,
+      hasDriverLicense: driverLicense,
+      gender: optionValue,
+    }
+    evt.preventDefault();
+    dispatch(createWorkerThunk(workerData, division!.id));
+  }
+
   return (
     <Wrapper>
-      <Form onSubmit={changeDivision}>
+      <Form onSubmit={(evt) => changeDivision(evt)}>
         <FieldSet>
           <Label htmlFor='name'>Наименование</Label>
           <Input onBlur={onBlur} name='name' id='name' value={changeDataForm.name} onChange={onChange} />
@@ -154,25 +170,25 @@ const DivisionSettings: FC<TDvisionSettings> = ({
           <Input onBlur={onBlur} name='description' id='description' value={changeDataForm.description} onChange={onChange} />
         </FieldSet>
         <Button type='submit'>Отправить изменения</Button>
-        <Button onClick={deleteDivision} type='button'>Удалить подразделение</Button>
+        <Button onClick={(evt) => deleteDivision(evt)} type='button'>Удалить подразделение</Button>
       </Form>
-      <Form>
+      <Form onSubmit={(evt)=> addWorker(evt)}>
         <Legend>Добавить сотрудника</Legend>
         <Label htmlFor='name'>ФИО</Label>
-        <Input name='name' id='name' value={changeDataForm.name} onChange={onChange} />
+        <Input name='name' id='name' value={changeDataFormWorker.name} onChange={onChangeWorkersInput} />
         <Label htmlFor='birthDate'>Дата рождения</Label>
-        <Input name='birthDate' id='birthDate' value={changeDataFormWorker.birthDate} onChange={onChange} />
-        <Label htmlFor='gender'>Пол</Label>
-        <Input name='gender' id='gender' value={changeDataFormWorker.gender} onChange={onChange} />
+        <Input name='birthDate' id='birthDate' value={changeDataFormWorker.birthDate} onChange={onChangeWorkersInput} />
         <Label htmlFor='position'>Должность</Label>
-        <Input name='position' id='position' value={changeDataFormWorker.position} onChange={onChange} />
+        <Input name='position' id='position' value={changeDataFormWorker.position} onChange={onChangeWorkersInput} />
+        <InputWithSelect title='Пол' optionValue={optionValue!} setValue={setValue} dataArray={['мужской', 'женский']} />
         <LicenseTitle>Наличие водительских прав</LicenseTitle>
         <Label htmlFor='licenseTrue'>Да</Label>
         <Input type='radio' name='license' id='licenseTrue' value='Да' onChange={setDriverLicense} />
         <Label htmlFor='licenseFalse'>Нет</Label>
         <Input type='radio' name='license' id='licenseFalse' value='Нет' onChange={setDriverLicense} />
+        <Button type='submit'>Создать работника</Button>
       </Form>
-      <Form onSubmit={createDivision}>
+      <Form onSubmit={(evt) => createDivision(evt)}>
         <Legend>Создать дочернее подразделение</Legend>
         <Label htmlFor='name'>Наименование</Label>
         <Input name='name' id='name' value={newDivisionData.name} onChange={setDataForNewDivision} />
@@ -188,6 +204,4 @@ const DivisionSettings: FC<TDvisionSettings> = ({
 
 export default DivisionSettings;
 
-/// компонент берез все данные из стоора
-/// валидация при отправке на сервер
-/// создать рабочего добавить
+

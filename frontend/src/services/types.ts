@@ -8,6 +8,10 @@ export type TDivisionItemType = {
   openSettingsMenu:(evt:React.MouseEvent<Element>)=> void
   arrowIconClick: (evt:React.MouseEvent<Element>) => void;
 };
+enum Gender {
+  male = 'мужской',
+  female = 'женский',
+}
 
 export type TWorkerItemType = {
   fullName?: string;
@@ -16,10 +20,11 @@ export type TWorkerItemType = {
   position?: string;
   hasDriverLicense?: boolean | string;
   isHeader?: boolean;
+  openModal?: (evt:React.MouseEvent<Element>) => void;
 };
 
 export type TModalProps = {
-  onClose: () => void;
+  onClose: (evt:React.MouseEvent<Element>) => void;
   children: ReactNode;
 };
 
@@ -33,6 +38,13 @@ export type TDvisionSettings = {
   deleteDivision?: () => void;
 };
 
+export type TInputWithSelect = {
+  dataArray: string[];
+  optionValue: string;
+  setValue: (key: Gender | string) => void;
+  title: string;
+}
+
 export type TNotification = {
   errorMessage: string;
 };
@@ -45,10 +57,7 @@ export type TDivision = {
   parentDivision: number | null;
 };
 
-enum Gender {
-  male = 'male',
-  female = 'female',
-}
+
 
 export type TWorker = {
   id: number;
@@ -59,4 +68,4 @@ export type TWorker = {
   hasDriverLicense: boolean,
   division: number
 };
-/// все поля дивизии, onBlur, createDivision, changeDivision
+

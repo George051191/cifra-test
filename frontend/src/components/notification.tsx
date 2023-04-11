@@ -21,4 +21,3 @@ const Notification:FC<TNotification> = ({ errorMessage }) => (
 );
 
 export default Notification;
-///берет ошибку из стора
